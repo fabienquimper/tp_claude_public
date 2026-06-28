@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "meteo": {
+      "command": "python",
+      "args": ["./support/scripts/mcp_meteo.py"],
+      "description": "Serveur MCP météo via wttr.in — aucune clé API requise"
+    }
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "mcp__meteo__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"{\\\"ts\\\":\\\"$(date -Iseconds)\\\",\\\"outil\\\":\\\"$CLAUDE_TOOL_NAME\\\"}\" >> ~/.claude/meteo-audit.log"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "deny": [
+      "Bash(rm *)",
+      "Bash(curl *)",
+      "Bash(wget *)"
+    ]
+  }
+}
